@@ -479,6 +479,8 @@ var model = _interopRequireWildcard(require("./model"));
 
 var _recipeView = _interopRequireDefault(require("./views/recipeView"));
 
+var _searchView = _interopRequireDefault(require("./views/searchView"));
+
 require("core-js/stable");
 
 require("regenerator-runtime/runtime");
@@ -491,13 +493,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 //
 //
-const recipeContainer = document.querySelector('.recipe'); // https://forkify-api.herokuapp.com/v2
-///////////////////////////////////////
-
-const controlRecipe = async function () {
+const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
-    console.log(id);
     if (!id) return;
 
     _recipeView.default.renderSpinner(); // 1) Loading Recipe
@@ -507,18 +505,39 @@ const controlRecipe = async function () {
 
     _recipeView.default.render(model.state.recipe);
   } catch (err) {
-    alert(err);
+    _recipeView.default.renderError();
   }
 };
 
-['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
-},{"./model":"4zirz","./views/recipeView":"3LnNd","core-js/stable":"7HWBg","regenerator-runtime/runtime":"52ZGc"}],"4zirz":[function(require,module,exports) {
+const controlSearchResults = async function () {
+  try {
+    // 1) Get Search Query
+    const query = _searchView.default.getQuery();
+
+    if (!query) return; // 2) Load Search Results
+
+    await model.loadSearchResults(query); // 3) Render Results
+
+    console.log(model.state.search.results);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const init = function () {
+  _recipeView.default.addHandlerRender(controlRecipes);
+
+  _searchView.default.addHandlerSearch(controlSearchResults);
+};
+
+init();
+},{"./model":"4zirz","./views/recipeView":"3LnNd","core-js/stable":"7HWBg","regenerator-runtime/runtime":"52ZGc","./views/searchView":"5myLn"}],"4zirz":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.loadRecipe = exports.state = void 0;
+exports.loadSearchResults = exports.loadRecipe = exports.state = void 0;
 
 var _regeneratorRuntime = require("regenerator-runtime");
 
@@ -529,7 +548,11 @@ var _helpers = require("./helpers");
 //
 //
 const state = {
-  recipe: {}
+  recipe: {},
+  search: {
+    query: '',
+    results: []
+  }
 };
 exports.state = state;
 
@@ -552,10 +575,32 @@ const loadRecipe = async function (id) {
     console.log(state.recipe);
   } catch (err) {
     console.error(`${err} 👻👻👻👻`);
+    throw err;
   }
 };
 
 exports.loadRecipe = loadRecipe;
+
+const loadSearchResults = async function (query) {
+  try {
+    state.search.query = query;
+    const data = await (0, _helpers.getJSON)(`${_config.API_URL}?search=${query}`);
+    console.log(data);
+    state.search.results = data.data.recipes.map(rec => {
+      return {
+        id: rec.id,
+        title: rec.title,
+        publisher: rec.publisher,
+        image: rec.image_url
+      };
+    });
+  } catch (err) {
+    console.error(`${err} 👻👻👻👻`);
+    throw err;
+  }
+};
+
+exports.loadSearchResults = loadSearchResults;
 },{"regenerator-runtime":"52ZGc","./config":"F1wIw","./helpers":"1IjzK"}],"52ZGc":[function(require,module,exports) {
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
@@ -1315,7 +1360,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.TIMEOUT_SEC = exports.API_URL = void 0;
 //
 //
-const API_URL = 'https://forkify-api.herokuapp.com/api/v2/recipes';
+const API_URL = 'https://forkify-api.herokuapp.com/api/v2/recipes/';
 exports.API_URL = API_URL;
 const TIMEOUT_SEC = 10;
 exports.TIMEOUT_SEC = TIMEOUT_SEC;
@@ -1373,6 +1418,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 class RecipeView {
   #parentElement = document.querySelector('.recipe');
   #data;
+  #errorMessage = 'We could not find that recipe. Please try another one';
+  #message = '';
 
   render(data) {
     this.#data = data;
@@ -1385,7 +1432,7 @@ class RecipeView {
     this.#parentElement.innerHTML = '';
   }
 
-  renderSpinner = function () {
+  renderSpinner() {
     const markup = `
       <div class="spinner">
         <svg>
@@ -1393,9 +1440,43 @@ class RecipeView {
         </svg>
       </div> 
     `;
-    this.#parentElement.innerHTML = '';
+    this.#clear();
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
-  };
+  }
+
+  renderError(message = this.#errorMessage) {
+    const markup = `
+      <div class="error">
+        <div>
+          <svg>
+            <use href="${_icons.default}#icon-alert-triangle"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+    `;
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  renderMessage(message = this.#message) {
+    const markup = `
+      <div class="message">
+        <div>
+          <svg>
+            <use href="${_icons.default}#icon-smile"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+    `;
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  addHandlerRender(handler) {
+    ['hashchange', 'load'].forEach(event => window.addEventListener(event, handler));
+  }
 
   #generateMarkup() {
     return `
@@ -13774,6 +13855,41 @@ $({ target: 'URL', proto: true, enumerable: true }, {
   }
 });
 
-},{"../internals/export":"5v5Lf"}]},{},["2sOrK","4JleI","XJubL"], "XJubL", "parcelRequirefade")
+},{"../internals/export":"5v5Lf"}],"5myLn":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+//
+//
+class SearchView {
+  #parentEl = document.querySelector('.search');
+
+  getQuery() {
+    const query = this.#parentEl.querySelector('.search__field').value;
+    this.#clearInput();
+    return query;
+  }
+
+  #clearInput() {
+    this.#parentEl.querySelector('.search__field').value = '';
+  }
+
+  addHandlerSearch(handler) {
+    this.#parentEl.addEventListener('submit', function (e) {
+      e.preventDefault();
+      handler();
+    });
+  }
+
+}
+
+var _default = new SearchView();
+
+exports.default = _default;
+},{}]},{},["2sOrK","4JleI","XJubL"], "XJubL", "parcelRequirefade")
 
 //# sourceMappingURL=index.1dbdbe87.js.map
