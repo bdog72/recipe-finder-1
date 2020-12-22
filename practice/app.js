@@ -100,8 +100,90 @@
 // const markHigherBMI = BMIMark > BMIJohn;
 // console.log(markHigherBMI);
 
+// if (BMIMark > BMIJohn) {
+//   console.log(
+//     `Marks BMI ${BMIMark.toFixed(1)} is higher than Johns ${BMIJohn.toFixed(1)}`
+//   );
+// } else {
+//   console.log(`Johns BMI is higher than Marks`);
+// }
+
 // ***********************************************
 // **********************************************÷
+
+// const firstName = 'Jonas';
+// const job = 'teacher';
+// const birthYear = 1991;
+// const year = 2037;
+
+// const jonas = `I'm ${firstName}, a ${year - birthYear} year old ${job}`;
+// console.log(jonas);
+
+// ***********************************************
+// **********************************************÷
+
+// const age = 15;
+
+// if (age >= 18) {
+//   console.log('🚗');
+// } else {
+//   const yearsLeft = 18 - age;
+//   console.log(
+//     `No Driving Yet, she has ${yearsLeft} years left before she can drive`
+//   );
+// }
+
+// const birthYear = 1991;
+// let century;
+// if (birthYear <= 2000) {
+//   century = 20;
+//   console.log(`Person was born in the ${century}'th century`);
+// } else {
+//   century = 21;
+//   console.log(century);
+// }
+
+// ***********************************************
+// **********************************************÷
+
+// const inputYear = '1991';
+// console.log(Number(inputYear) + 18);
+// console.log(inputYear + 18);
+
+// console.log('I am ' + 23 + ' years old');
+// console.log('23' * '2');
+
+// let n = '1' + 1;
+// console.log(n);
+
+// ***********************************************
+// **********************************************÷
+
+// console.log(Boolean(0));
+// console.log(Boolean(NaN));
+// console.log(Boolean(undefined));
+// console.log(Boolean('Bozo'));
+
+// const money = 0;
+// if (money) {
+//   console.log(`Don't spend it all`);
+// } else {
+//   console.log(`Bozo get a job`);
+// }
+
+// let height;
+// if (height) {
+//   console.log(`Yay, height is defined`);
+// } else {
+//   console.log(`Boo! height is undefined`);
+// }
+
+// ***********************************************
+// **********************************************÷
+
+const age = 18;
+
+if (age === 18) console.log(`You just became an adult`);
 
 // ***********************************************
 // **********************************************÷
