@@ -1,0 +1,30 @@
+/*  */
+/*  */
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #fefae0;
+}
+
+.container__h1__title {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #283618;
+  font-size: 4rem;
+}
+
+a {
+  text-align: center;
+  color: #000;
+  font-size: 1.5rem;
+}
+
+a:hover {
+  color: red;
+}
+
+@media (max-width: 500px) {
+  .container__h1__title {
+    font-size: 3rem;
+  }
+}
