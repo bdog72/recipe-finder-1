@@ -19,7 +19,7 @@ body {
   font-family: 'Poppins', sans-serif;
   color: #444;
   background-color: #f3f3f3;
-  height: 100vh;
+  /* height: 100vh; */
   padding: 2rem;
 }
 
@@ -28,6 +28,28 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
+}
+
+/* .credentials__container-main {
+  width: 300px;
+  margin: 0 auto;
+} */
+
+.credentials__container {
+  margin: 0 auto;
+  display: flex;
+  /* justify-content: center; */
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 250px;
+  /* border: 1px solid black; */
+  margin-top: 10px;
+}
+
+.credentials__container-items {
+  /* margin: 10px 10px 0 10px; */
+  padding: 5px;
+  font-size: 1.5rem;
 }
 
 .welcome {
@@ -85,6 +107,7 @@ nav {
 
 /* MAIN */
 .app {
+  /* border: 1px solid #000; */
   position: relative;
   max-width: 100rem;
   margin: 4rem auto;
@@ -92,9 +115,9 @@ nav {
   grid-template-columns: 4fr 3fr;
   grid-template-rows: auto repeat(3, 15rem) auto;
   gap: 2rem;
-
+  /* margin-bottom: 20px; */
   /* NOTE This creates the fade in/out anumation */
-  /* opacity: 0; */
+  opacity: 0;
   transition: all 1s;
 }
 
