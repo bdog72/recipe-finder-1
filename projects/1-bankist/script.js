@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////
 // BANKIST APP
 
-console.log(123456);
+console.log(1);
 
 // Data
 const account1 = {
@@ -54,6 +54,8 @@ const labelSumOut = document.querySelector('.summary__value--out');
 const labelSumInterest = document.querySelector('.summary__value--interest');
 const labelTimer = document.querySelector('.timer');
 
+const h1Credentials = document.querySelector('.h1__credentials');
+const credentialsContainer = document.querySelector('.credentials__container');
 const containerApp = document.querySelector('.app');
 const containerMovements = document.querySelector('.movements');
 
@@ -89,11 +91,11 @@ const displayMovements = function (movements) {
 
 // displayMovements(account1.movements);
 
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((acc, mov) => {
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => {
     return acc + mov;
   }, 0);
-  labelBalance.textContent = `＄${balance} USD`;
+  labelBalance.textContent = `＄${acc.balance} USD`;
 };
 
 // calcDisplayBalance(account1.movements);
@@ -150,6 +152,17 @@ const createUserNames = function (accs) {
 
 createUserNames(accounts);
 
+const updateUI = function (acc) {
+  // Display Movements
+  displayMovements(acc.movements);
+
+  // Display Balance
+  calcDisplayBalance(acc);
+
+  // Display Summary
+  calcDisplaySummary(acc);
+};
+
 // Event Handler
 let currentAccount;
 
@@ -158,8 +171,10 @@ btnLogin.addEventListener('click', function (e) {
   currentAccount = accounts.find(account => {
     return account.username === inputLoginUsername.value;
   });
-  // inputLoginUsername.value = '';
   console.log(currentAccount);
+
+  // credentialsContainer.style.display = 'none';
+  // h1Credentials.style.display = 'none';
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     // Display UI and Message
@@ -171,16 +186,33 @@ btnLogin.addEventListener('click', function (e) {
     // Clear Fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
-    // Display Movements
-    displayMovements(currentAccount.movements);
 
-    // Display Balance
-    calcDisplayBalance(currentAccount.movements);
-
-    // Display Summary
-    calcDisplaySummary(currentAccount);
+    // Update UI
+    updateUI(currentAccount);
   }
-  // inputLoginPin.value = '';
+});
+
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const recieverAcc = accounts.find(acc => {
+    return acc.username === inputTransferTo.value;
+  });
+  inputTransferAmount.value = inputTransferTo.value = '';
+
+  if (
+    amount > 0 &&
+    recieverAcc &&
+    currentAccount.balance >= amount &&
+    recieverAcc?.username !== currentAccount.username
+  ) {
+    // Doing the Transfer
+    currentAccount.movements.push(-amount);
+    recieverAcc.movements.push(amount);
+
+    // Update UI
+    updateUI(currentAccount);
+  }
 });
 
 // LECTURES

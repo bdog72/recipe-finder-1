@@ -18,24 +18,31 @@
     <!-- TOP NAVIGATION -->
     <nav>
       <p class="welcome">Log in to get started</p>
-      <img src="logo.png" alt="Logo" class="logo" />
+      <a href="index.html">
+        <img src="logo.png" alt="Logo" class="logo" />
+      </a>
       <form class="login">
+        <p>USER</p>
         <input
           type="text"
           placeholder="user"
           class="login__input login__input--user"
+          value="aa"
         />
         <!-- In practice, use type="password" -->
+        <p>PIN</p>
         <input
           type="text"
           placeholder="PIN"
           maxlength="4"
           class="login__input login__input--pin"
+          value="1111"
         />
         <button class="login__btn">&rarr;</button>
       </form>
     </nav>
 
+    <h1 class="h1__credentials">Dummy Credentials</h1>
     <div class="credentials__container">
       <div class="credentials__container-items">
         <p>USER - aa</p>
