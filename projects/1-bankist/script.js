@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////
 // BANKIST APP
 
-console.log(1);
+console.log(1234);
 
 // Data
 const account1 = {
@@ -73,9 +73,12 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
-  movements.forEach(function (mov, i) {
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal ';
     const html = `
       <div class="movements__row">
@@ -251,20 +254,165 @@ btnClose.addEventListener('click', e => {
   inputCloseUsername.value = inputClosePin.value = '';
 });
 
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
+
 // LECTURES
 /////////////////////////////////////////////////
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-console.log(movements.includes(-130));
+const dogs = [
+  {
+    weight: 22,
+    curFood: 250,
+    owners: ['Alice', 'Bob'],
+  },
+  {
+    weight: 8,
+    curFood: 200,
+    owners: ['Matlida'],
+  },
+  {
+    weight: 13,
+    curFood: 275,
+    owners: ['Sarah', 'John'],
+  },
+  {
+    weight: 32,
+    curFood: 340,
+    owners: ['Michael'],
+  },
+];
 
-const anyDeposits = movements.some(mov => mov > 5000);
-console.log(anyDeposits);
+dogs.forEach(function (dog) {
+  dog.recFood = Math.trunc(dog.weight ** 0.75 * 28);
+});
 
-console.log(movements.every(mov => mov > 0));
+const dogSarah = dogs.find(dog => {
+  return dog.owners.includes('Sarah');
+});
+console.log(dogSarah);
+console.log(
+  `Sarah's dog is eating too ${
+    dogSarah.curFood > dogSarah.recFood ? 'much' : 'little'
+  }`
+);
 
-const deposits = mov => mov > 0;
-console.log(movements.some(deposits));
+const ownersEatTooMuch = dogs
+  .filter(dog => dog.curFood > dog.recFood)
+  .flatMap(dog => dog.owners);
+
+console.log(ownersEatTooMuch);
+
+const ownersEatTooLittle = dogs
+  .filter(dog => dog.curFood < dog.recFood)
+  .flatMap(dog => dog.owners);
+
+console.log(ownersEatTooLittle);
+
+console.log(`${ownersEatTooMuch.join(' and ')}'s dogs eat too much`);
+
+console.log(`${ownersEatTooLittle.join(' and ')}'s dogs eat too little`);
+
+console.log(dogs.some(dog => dog.curFood === dog.recFood));
+
+// const randomArr = ['a', 'b', 'c'];
+// console.log(randomArr);
+
+// const randomNumber = Math.floor(Math.random() * randomArr.length);
+
+// console.log(randomArr[randomNumber]);
+
+// labelBalance.addEventListener('click', function () {
+//   const movementsUI = Array.from(
+//     document.querySelectorAll('.movements__value')
+//   );
+//   console.log(movementsUI);
+// });
+
+// const x = new Array(7);
+// console.log(x.fill(1));
+
+// console.log(x.fill(1, 3));
+// const y = Array.from(
+//   {
+//     length: 7,
+//   },
+//   () => 2
+// );
+
+// console.log(y);
+
+// const z = Array.from(
+//   {
+//     length: 7,
+//   },
+//   (_, i) => i + 1
+// );
+
+// console.log(z);
+
+// const random = Math.floor(Math.random() * 100);
+// const bozo = Array.from(
+//   {
+//     // length: 100,
+//     random,
+//   },
+//   random => random
+// );
+
+// console.log(bozo);
+// const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+// console.log(owners.sort());
+
+// console.log(movements);
+// console.log(movements.sort());
+
+// const bozo = movements.sort((a, b) => {
+//   if (a > b) {
+//     return 1;
+//   }
+
+//   if (b > a) {
+//     return -1;
+//   }
+// });
+
+// const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+// console.log(arr.flat());
+
+// const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+// console.log(arrDeep.flat(1));
+
+// const accountMovements = accounts.map(acc => {
+//   return acc.movements;
+// });
+
+// console.log(accountMovements);
+
+// const allMovements = accountMovements.flat();
+// console.log(allMovements);
+
+// const totalArraySums = allMovements.reduce((acc, mov) => {
+//   return acc + mov;
+// });
+
+// console.log(totalArraySums);
+
+// console.log(movements.includes(-130));
+
+// const anyDeposits = movements.some(mov => mov > 5000);
+// console.log(anyDeposits);
+
+// console.log(movements.every(mov => mov > 0));
+
+// const deposits = mov => mov > 0;
+// console.log(movements.some(deposits));
 
 // const firstWithdraw = movements.find(function (mov) {
 //   return mov < 0;
