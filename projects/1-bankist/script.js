@@ -266,60 +266,60 @@ btnSort.addEventListener('click', function (e) {
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-const dogs = [
-  {
-    weight: 22,
-    curFood: 250,
-    owners: ['Alice', 'Bob'],
-  },
-  {
-    weight: 8,
-    curFood: 200,
-    owners: ['Matlida'],
-  },
-  {
-    weight: 13,
-    curFood: 275,
-    owners: ['Sarah', 'John'],
-  },
-  {
-    weight: 32,
-    curFood: 340,
-    owners: ['Michael'],
-  },
-];
+// const dogs = [
+//   {
+//     weight: 22,
+//     curFood: 250,
+//     owners: ['Alice', 'Bob'],
+//   },
+//   {
+//     weight: 8,
+//     curFood: 200,
+//     owners: ['Matlida'],
+//   },
+//   {
+//     weight: 13,
+//     curFood: 275,
+//     owners: ['Sarah', 'John'],
+//   },
+//   {
+//     weight: 32,
+//     curFood: 340,
+//     owners: ['Michael'],
+//   },
+// ];
 
-dogs.forEach(function (dog) {
-  dog.recFood = Math.trunc(dog.weight ** 0.75 * 28);
-});
+// dogs.forEach(function (dog) {
+//   dog.recFood = Math.trunc(dog.weight ** 0.75 * 28);
+// });
 
-const dogSarah = dogs.find(dog => {
-  return dog.owners.includes('Sarah');
-});
-console.log(dogSarah);
-console.log(
-  `Sarah's dog is eating too ${
-    dogSarah.curFood > dogSarah.recFood ? 'much' : 'little'
-  }`
-);
+// const dogSarah = dogs.find(dog => {
+//   return dog.owners.includes('Sarah');
+// });
+// console.log(dogSarah);
+// console.log(
+//   `Sarah's dog is eating too ${
+//     dogSarah.curFood > dogSarah.recFood ? 'much' : 'little'
+//   }`
+// );
 
-const ownersEatTooMuch = dogs
-  .filter(dog => dog.curFood > dog.recFood)
-  .flatMap(dog => dog.owners);
+// const ownersEatTooMuch = dogs
+//   .filter(dog => dog.curFood > dog.recFood)
+//   .flatMap(dog => dog.owners);
 
-console.log(ownersEatTooMuch);
+// console.log(ownersEatTooMuch);
 
-const ownersEatTooLittle = dogs
-  .filter(dog => dog.curFood < dog.recFood)
-  .flatMap(dog => dog.owners);
+// const ownersEatTooLittle = dogs
+//   .filter(dog => dog.curFood < dog.recFood)
+//   .flatMap(dog => dog.owners);
 
-console.log(ownersEatTooLittle);
+// console.log(ownersEatTooLittle);
 
-console.log(`${ownersEatTooMuch.join(' and ')}'s dogs eat too much`);
+// console.log(`${ownersEatTooMuch.join(' and ')}'s dogs eat too much`);
 
-console.log(`${ownersEatTooLittle.join(' and ')}'s dogs eat too little`);
+// console.log(`${ownersEatTooLittle.join(' and ')}'s dogs eat too little`);
 
-console.log(dogs.some(dog => dog.curFood === dog.recFood));
+// console.log(dogs.some(dog => dog.curFood === dog.recFood));
 
 // const randomArr = ['a', 'b', 'c'];
 // console.log(randomArr);
