@@ -185,9 +185,35 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+const startLogoutTimer = function () {
+  const tick = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, '0');
+    const sec = String(time % 60).padStart(2, '0');
+    // In each call, print the remaining time to UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    // When 0 seconds, stop timer and logout user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = `Log in to get started`;
+      containerApp.style.opacity = 0;
+    }
+    // Decrease 1s
+    time--;
+  };
+
+  // Set time to 5 minutes
+  let time = 300;
+
+  // Call timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
+
 ///////////////////////////////////////
 // Event handlers
-let currentAccount;
+let currentAccount, timer;
 
 // ***** Fake always logged in ***** //
 
@@ -233,6 +259,12 @@ btnLogin.addEventListener('click', function (e) {
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
 
+    if (timer) {
+      clearInterval(timer);
+    }
+
+    timer = startLogoutTimer();
+
     // Update UI
     updateUI(currentAccount);
   }
@@ -262,6 +294,10 @@ btnTransfer.addEventListener('click', function (e) {
 
     // Update UI
     updateUI(currentAccount);
+
+    // Reset timer
+    clearInterval(timer);
+    timer = startLogoutTimer();
   }
 });
 
@@ -280,6 +316,10 @@ btnLoan.addEventListener('click', function (e) {
 
       // Update UI
       updateUI(currentAccount);
+
+      // Reset timer
+      clearInterval(timer);
+      timer = startLogoutTimer();
     }, 2500);
   }
   inputLoanAmount.value = '';
@@ -374,15 +414,15 @@ btnSort.addEventListener('click', function (e) {
 // console.log(new Intl.NumberFormat(locale, options).format(num));
 // console.log(new Intl.NumberFormat('de-DE', options).format(num));
 
-const ingredients = ['olives', 'spinach'];
+// const ingredients = ['olives', 'spinach'];
 
-const pizzaTimer = setTimeout(
-  (ing1, ing2) => console.log(`Here is your Pizza with ${ing1} and ${ing2} 🍕`),
-  2000,
-  ...ingredients
-);
+// const pizzaTimer = setTimeout(
+//   (ing1, ing2) => console.log(`Here is your Pizza with ${ing1} and ${ing2} 🍕`),
+//   2000,
+//   ...ingredients
+// );
 
-console.log(`Bozo`);
+// console.log(`Bozo`);
 
 // setInterval(function () {
 //   const now = new Date();
