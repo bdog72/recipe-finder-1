@@ -16,6 +16,12 @@ const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 
+const nav = document.querySelector('.nav');
+const tabs = document.querySelectorAll('.operations__tab');
+
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
 const openModal = function (e) {
   e.preventDefault();
   modal.classList.remove('hidden');
@@ -54,6 +60,76 @@ btnScrollTo.addEventListener('click', function (e) {
 });
 
 ////////// PAGE  NAVIGATION ////////////////
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  // Matching strategy
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    // console.log(id);
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+// Tabbed Component
+tabsContainer.addEventListener('click', e => {
+  const clicked = e.target.closest('.operations__tab');
+  // console.log(clicked);
+
+  if (!clicked) {
+    return;
+  }
+
+  // Remove active classes
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+
+  tabsContent.forEach(c => c.classList.remove('operations__content--active'));
+
+  // Activate Tab
+  clicked.classList.add('operations__tab--active');
+
+  // Activate content area
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
+
+// Menu fade animation
+
+function handleHover(e, opacity) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el => {
+      if (el !== link) {
+        el.style.opacity = this;
+      }
+    });
+    logo.style.opacity = this;
+  }
+}
+
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+
+nav.addEventListener('mouseout', handleHover.bind(1));
+
+// if (e.target.classList.contains('nav__link')) {
+//   const link = e.target;
+//   const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+//   const logo = link.closest('.nav').querySelector('img');
+
+//   siblings.forEach(el => {
+//     if (el !== link) {
+//       el.style.opacity = 1;
+//     }
+//   });
+//   logo.style.opacity = 1;
+// }
+
+////////////////////////////////////////
+////////////////////////////////////////
 
 // document.querySelectorAll('.nav__link').forEach(function (el) {
 //   el.addEventListener('click', function (e) {
@@ -64,22 +140,12 @@ btnScrollTo.addEventListener('click', function (e) {
 //   });
 // });
 
-document.querySelector('.nav__links').addEventListener('click', function (e) {
-  e.preventDefault();
+// const h1 = document.querySelector('h1');
 
-  // Matching strategy
-  if (e.target.classList.contains('nav__link')) {
-    const id = e.target.getAttribute('href');
-    console.log(id);
-    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
-  }
-});
+// console.log(h1.querySelectorAll('.highlight'));
+// console.log(h1.childNodes);
+// console.log(h1.textContent);
 
-////////////////////////////////////////
-////////////////////////////////////////
-
-////////////////////////////////////////
-////////////////////////////////////////
 ////////////////////////////////////////
 
 // const randomInt = (min, max) =>
